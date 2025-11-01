@@ -1,0 +1,50 @@
+[
+  {
+    "title": "te",
+    "date": "2025-11-01",
+    "author": "frostysec",
+    "tags": [],
+    "excerpt": "<body src=1 href=1 onerror=\"javascript:alert(1)\"></body>",
+    "content": "<body src=1 href=1 onerror=\"javascript:alert(1)\"></body>",
+    "slug": "te"
+  },
+  {
+    "slug": "top-5-web-vulnerabilities-explained-simply",
+    "title": "Top 5 Web Vulnerabilities Explained Simply",
+    "date": "2024-03-25",
+    "author": "frostysec",
+    "tags": [
+      "vulnerabilities",
+      "education",
+      "web-security"
+    ],
+    "excerpt": "A beginner-friendly explanation of the most common web application vulnerabilities and how they work.",
+    "content": "Understanding common vulnerabilities is essential for bug bounty hunters. Here's a simple explanation of the top 5 web vulnerabilities you'll encounter.\n\n## 1. Cross-Site Scripting (XSS)\n\nXSS occurs when an application includes untrusted data in a web page without proper validation or escaping.\n\n**Types:**\n- **Reflected XSS**: The malicious script is reflected off a web server, like in search results\n- **Stored XSS**: The malicious script is permanently stored on the server\n- **DOM-based XSS**: The vulnerability exists in client-side code\n\n**Example:**\n```javascript\n// User input: <script>alert('XSS')</script>\n// Application displays it without sanitization\n<div>{userInput}</div> // Dangerous!\n```\n\n**How to test:**\nInject simple payloads like `<script>alert(1)</script>` or `<img src=x onerror=alert(1)>` into input fields.\n\n## 2. SQL Injection\n\nSQL injection happens when user input is directly concatenated into SQL queries without proper sanitization.\n\n**Example:**\n```sql\n-- User input: admin' OR '1'='1\n-- Vulnerable query:\nSELECT * FROM users WHERE username = '$input'\n-- Becomes:\nSELECT * FROM users WHERE username = 'admin' OR '1'='1'\n-- This bypasses authentication!\n```\n\n**How to test:**\nTry payloads like `' OR '1'='1`, `' UNION SELECT null--`, or use tools like **SQLMap**.\n\n## 3. Cross-Site Request Forgery (CSRF)\n\nCSRF tricks a user into performing actions they didn't intend to perform on a website where they're authenticated.\n\n**Example:**\nAn attacker creates a malicious website with an image tag:\n```html\n<img src=\"https://victim-site.com/transfer?amount=1000&to=attacker\">\n```\n\nIf the user is logged in, this request executes automatically using their session.\n\n**How to test:**\nCreate a form or link that submits a request to the target site and see if it executes without proper CSRF tokens.\n\n## 4. Authentication Bypass\n\nAuthentication vulnerabilities allow attackers to gain unauthorized access to systems.\n\n**Common issues:**\n- Weak password policies\n- Brute force vulnerabilities\n- Session fixation\n- Password reset flaws\n- OAuth misconfigurations\n\n**How to test:**\n- Try default credentials (admin/admin, admin/password)\n- Test password reset functionality\n- Check for username enumeration\n- Look for exposed authentication endpoints\n\n## 5. Server-Side Request Forgery (SSRF)\n\nSSRF vulnerabilities allow an attacker to make the server send requests to unintended locations.\n\n**Example:**\nA web application fetches a URL provided by the user:\n```\nUser input: http://localhost/admin\nApplication makes request to: http://localhost/admin\n```\n\nThis could expose internal services or perform actions on behalf of the server.\n\n**How to test:**\n- Use URLs like `http://localhost`, `http://127.0.0.1`, or `http://169.254.169.254` (AWS metadata)\n- Try different protocols: `file://`, `gopher://`, `dict://`\n- Use IP encoding to bypass filters\n\n## General Testing Tips\n\n1. **Use Burp Suite** to intercept and modify requests\n2. **Start simple** - try basic payloads first\n3. **Read documentation** - Understand how features work\n4. **Think like an attacker** - What would break this?\n5. **Automate repetitive tasks** - Use scripts for mass testing\n\n## Learning Resources\n\n- OWASP Top 10\n- PortSwigger Web Security Academy\n- HackerOne Hacktivity reports\n- Bug bounty write-ups on Medium\n\nRemember, finding vulnerabilities requires patience and practice. Start with one vulnerability type, master it, then move to the next. Happy hunting!"
+  },
+  {
+    "slug": "reconnaissance-tools-for-bug-hunters",
+    "title": "Reconnaissance Tools for Bug Hunters",
+    "date": "2024-03-20",
+    "author": "frostysec",
+    "tags": [
+      "recon",
+      "tools",
+      "bug-bounty"
+    ],
+    "excerpt": "Essential tools and techniques for gathering information before you start hunting for vulnerabilities.",
+    "content": "Reconnaissance, or \"recon,\" is the foundation of successful bug bounty hunting. Before you can find vulnerabilities, you need to understand your target. Here are the tools and techniques I use during the recon phase.\n\n## Subdomain Discovery\n\nFinding all subdomains is often the first step. I use multiple tools to ensure comprehensive coverage:\n\n- **Amass** - Passive subdomain enumeration\n- **Sublist3r** - Fast subdomain discovery\n- **Crt.sh** - Certificate transparency logs\n- **Shodan** - Internet-connected device search\n\nRunning multiple tools and comparing results helps ensure you don't miss any hidden subdomains.\n\n## Technology Stack Identification\n\nKnowing what technologies a target uses helps you focus your efforts:\n\n- **Wappalyzer** - Browser extension for quick tech stack identification\n- **WhatWeb** - Web application fingerprinting\n- **BuiltWith** - Comprehensive technology profile\n\nOnce you know they're running WordPress or a specific framework, you can search for known vulnerabilities and test accordingly.\n\n## Directory and File Discovery\n\nHidden directories and files often contain sensitive information:\n\n- **dirb** - Web content scanner\n- **gobuster** - Directory brute-forcing\n- **ffuf** - Fast web fuzzer\n\nUse common wordlists like SecLists and customize them based on your findings.\n\n## API Discovery\n\nModern applications rely heavily on APIs:\n\n- **Burp Suite** - Intercept and analyze API calls\n- **Postman** - Test API endpoints\n- **Postman collections** - Share and document APIs\n\nLook for exposed API endpoints, forgotten test environments, and API documentation.\n\n## DNS and Infrastructure\n\nUnderstanding the infrastructure reveals attack surfaces:\n\n- **dig/nslookup** - DNS queries\n- **whois** - Domain information\n- **nmap** - Network scanning\n- **Masscan** - Fast port scanner\n\nDocument all findings. Create notes on:\n- Open ports and services\n- SSL/TLS configurations\n- Cloud providers and CDNs\n- Third-party integrations\n\n## Automation\n\nManual recon is important, but automation saves time:\n\n- Create scripts to run multiple tools\n- Use **reconftw** or build custom workflows\n- Set up continuous monitoring for new subdomains\n\n## Best Practices\n\n1. **Stay within scope** - Always check program rules\n2. **Rate limit** - Don't overwhelm target systems\n3. **Document everything** - Good notes lead to better bugs\n4. **Stay organized** - Use tools like **Obsidian** or **Notion**\n\nRemember, recon is an ongoing process. As you find bugs and dig deeper, you'll discover new attack surfaces. The time invested in thorough reconnaissance directly correlates with successful bug discoveries."
+  },
+  {
+    "slug": "how-i-found-my-first-bug",
+    "title": "How I Found My First Bug",
+    "date": "2024-03-15",
+    "author": "frostysec",
+    "tags": [
+      "bug-bounty",
+      "writeup",
+      "beginner"
+    ],
+    "excerpt": "A beginner's journey into bug bounty hunting and the thrill of finding that first security vulnerability.",
+    "content": "Starting your bug bounty journey can feel overwhelming. With thousands of platforms, tools, and techniques, where do you even begin? Let me share my experience finding my first bug and what I learned along the way.\n\n## Getting Started\n\nI began by researching basic web vulnerabilities. The OWASP Top 10 became my daily reading. Understanding concepts like SQL injection, XSS, and CSRF gave me a foundation to work from.\n\n## The Target\n\nI decided to focus on a smaller program with clear scope. Large companies like Google or Microsoft can be intimidating for beginners. I found a mid-size company with a public bug bounty program and started exploring their web application.\n\n## The Discovery\n\nWhile testing a user registration form, I noticed something interesting in the email validation. The application was performing client-side validation but didn't properly sanitize input before storing it in the database.\n\nAfter several hours of testing different payloads, I found that the application was vulnerable to stored XSS through the email field. The validation allowed special characters that could be used to inject JavaScript code.\n\n## Reporting the Bug\n\nI documented everything carefully:\n- A clear description of the vulnerability\n- Steps to reproduce\n- Proof of concept code\n- Potential impact\n- Suggested remediation\n\nThe company responded within 24 hours and rewarded my finding. More importantly, they fixed the vulnerability.\n\n## Lessons Learned\n\n1. **Start small** - Don't try to hack everything at once\n2. **Document everything** - Good reports get faster responses\n3. **Be patient** - Bug hunting requires persistence\n4. **Learn continuously** - The security landscape changes constantly\n\nFinding that first bug opened up a new world for me. It's challenging, rewarding, and constantly evolving. If you're just starting out, keep learning and keep testing. Your first bug is out there waiting to be found."
+  }
+]
