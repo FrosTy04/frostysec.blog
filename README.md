@@ -55,9 +55,7 @@ npm install
 
 3. Create a `.env.local` file in the root directory with your admin credentials:
 ```bash
-ADMIN_USER=well
-ADMIN_PASS=woof
-```
+
 
 **Note:** For production, use strong, randomly generated credentials. Never commit `.env.local` to version control (it's already in `.gitignore`).
 
