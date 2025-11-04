@@ -16,9 +16,7 @@ A minimalist blog website for bug bounty, cybersecurity, and penetration testing
 
 ### **CRITICAL: Admin Credentials**
 
-The admin panel uses Basic Auth with **default credentials**:
-- Username: `men`
-- Password: `well`
+
 
 **⚠️ YOU MUST CHANGE THESE BEFORE DEPLOYING TO PRODUCTION!**
 
@@ -57,9 +55,7 @@ npm install
 
 3. Create a `.env.local` file in the root directory with your admin credentials:
 ```bash
-ADMIN_USER=well
-ADMIN_PASS=woof
-```
+
 
 **Note:** For production, use strong, randomly generated credentials. Never commit `.env.local` to version control (it's already in `.gitignore`).
 
@@ -80,7 +76,7 @@ npm run dev
 **Add a new post locally:**
 1. Edit `posts.json` directly and add a new entry, OR
 2. Add a new markdown file to `/content` directory with frontmatter, OR
-3. Use the admin panel at `/admin` (credentials: `men` / `well`)
+3. Use the admin panel at `/admin`
 
 **Rebuild after local changes:**
 ```bash
@@ -150,12 +146,7 @@ The site uses Next.js static generation, making it perfect for deployment on Ver
 
 ### Deploy to Vercel
 
-1. Push your code to GitHub
-2. Import project in [Vercel](https://vercel.com)
-3. Set environment variables:
-   - `ADMIN_USERNAME` - Your admin username
-   - `ADMIN_PASSWORD` - Your strong admin password
-4. Deploy
+
 
 ### Deploy to Netlify
 
