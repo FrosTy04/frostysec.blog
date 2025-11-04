@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-white text-black;
+    @apply bg-white dark:bg-gray-900 text-black dark:text-white transition-colors;
   }
 }
 
